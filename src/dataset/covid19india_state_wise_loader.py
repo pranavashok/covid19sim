@@ -3,9 +3,10 @@ import os
 
 
 class Covid19IndiaStatewiseLoader:
-    def __init__(self, state_code):
-        self.state_code = state_code
-        if os.path.exists("../data"):
+    def __init__(self):
+        if os.path.exists("data"):
+            self.store_location = 'data/covid19india_state_wise_daily.pickle'
+        elif os.path.exists("../data"):
             self.store_location = '../data/covid19india_state_wise_daily.pickle'
         elif os.path.exists("../../data"):
             self.store_location = '../../data/covid19india_state_wise_daily.pickle'
@@ -21,5 +22,7 @@ class Covid19IndiaStatewiseLoader:
             print(f"Not available in cache, downloading from {self.url}")
             raw_data = pd.read_csv(self.url, parse_dates=[0], dayfirst=True)
             data = raw_data.pivot(index='Date', columns='Status')
+            data.columns = data.columns.set_names(["State", "Status"])
+            data.drop("TT", axis=1, inplace=True)
             data.to_pickle(self.store_location)
-        return data[self.state_code]
+        return data

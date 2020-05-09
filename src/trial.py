@@ -9,3 +9,8 @@ print(kl_confirmed)
 india_time_series = Dataset("India")
 india_confirmed = india_time_series.get_confirmed()
 print(india_confirmed)
+
+# Get all states dataframe
+all_states = Dataset("India:AllStates")
+states_df = all_states.get_confirmed()
+print(states_df)

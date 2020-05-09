@@ -27,7 +27,7 @@ class Covid19IndiaNationalLoader:
             data = data.set_index('date')
             assert list(data.columns) == ['dailyconfirmed', 'dailydeceased', 'dailyrecovered', 'totalconfirmed',
                                           'totaldeceased', 'totalrecovered']
-            data.columns = ['Confirmed', 'Deceased', 'Recovered', 'TotalConfirmed', 'TotalDeceased', 'TotalRecovered']
+            data.columns = pd.MultiIndex.from_product([['India'], ['Confirmed', 'Deceased', 'Recovered', 'TotalConfirmed', 'TotalDeceased', 'TotalRecovered']], names=["Country", "Status"])
             data = data.astype(int)
             data.to_pickle(self.store_location)
         return data
